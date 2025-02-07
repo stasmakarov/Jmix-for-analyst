@@ -3,6 +3,8 @@
 
     <menu id="application" title="msg://com.company.jmixforanalyst/menu.application.title" opened="true">
         <item view="jal_User.list" title="msg://com.company.jmixforanalyst.view.user/UserListView.title"/>
+        <item view="ext_bpm_ContentStorage.list"
+              title="msg://com.company.jmixforanalyst/menu_config.ext_bpm_ContentStorage.list.title"/>
     </menu>
 
 </menu-config>

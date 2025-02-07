@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://contentstorage.title"
+      extends="io/jmix/bpmflowui/view/contentstorage/content-storage-list-view.xml"
+      messagesGroup="io.jmix.bpmflowui.view.contentstorage">
+    <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="openBtn" action="contentStoragesTable.openModeler" text="msg://open.modeler"/>
+            <button id="editBtn" action="contentStoragesTable.edit" />
+        </hbox>
+        <dataGrid id="contentStoragesTable">
+            <actions>
+                <action id="edit" type="list_edit">
+<!--                    <properties>-->
+<!--                        <property name="viewId" value="ext_ContentStorage.detail"/>-->
+<!--                    </properties>-->
+                </action>
+                <action id="openModeler" type="openModeler"/>
+            </actions>
+        </dataGrid>
+
+    </layout>
+</view>
