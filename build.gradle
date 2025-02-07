@@ -20,6 +20,13 @@ repositories {
     maven {
         url 'https://global.repo.jmix.io/repository/public'
     }
+    maven {
+        url = 'https://global.repo.jmix.io/repository/premium'
+        credentials {
+            username = rootProject['premiumRepoUser']
+            password = rootProject['premiumRepoPass']
+        }
+    }
 }
 
 dependencies {
@@ -44,6 +51,8 @@ dependencies {
     }
     testImplementation 'io.jmix.flowui:jmix-flowui-test-assist'
     implementation 'io.jmix.translations:jmix-translations-ru'
+    implementation 'io.jmix.bpm:jmix-bpm-starter'
+    implementation 'io.jmix.bpm:jmix-bpm-flowui-starter'
 }
 
 configurations.implementation {
