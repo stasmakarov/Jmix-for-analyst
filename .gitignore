@@ -1,4 +1,6 @@
-.jmix
+#.jmix
+.jmix/hsqldb/jal.lck
+.jmix/hsqldb/jal.tmp/
 
 .gradle
 build/
