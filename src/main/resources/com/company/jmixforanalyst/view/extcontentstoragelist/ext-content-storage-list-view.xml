@@ -6,18 +6,13 @@
     <layout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="openBtn" action="contentStoragesTable.openModeler" text="msg://open.modeler"/>
-            <button id="editBtn" action="contentStoragesTable.edit" />
+            <button id="editBtn" action="contentStoragesTable.edit"/>
         </hbox>
         <dataGrid id="contentStoragesTable">
             <actions>
-                <action id="edit" type="list_edit">
-<!--                    <properties>-->
-<!--                        <property name="viewId" value="ext_ContentStorage.detail"/>-->
-<!--                    </properties>-->
-                </action>
+                <action id="edit" type="editProcessDraft"/>
                 <action id="openModeler" type="openModeler"/>
             </actions>
         </dataGrid>
-
     </layout>
 </view>
