@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://jmix.io/schema/flowui/menu">
 
-    <menu id="application" title="msg://com.company.jmixforanalyst/menu.application.title" opened="true">
+    <menu opened="true" id="application" title="msg://com.company.jmixforanalyst/menu.application.title">
         <item view="jal_User.list" title="msg://com.company.jmixforanalyst.view.user/UserListView.title"/>
         <item view="jal_StormDiagramDto.list"
               title="msg://com.company.jmixforanalyst.view.stormdiagramdto/stormDiagramDtoListView.title"/>
         <item view="bpm_ProcessDraft.list"
               title="msg://com.company.jmixforanalyst.view.contentstorage/processDraftListView.title"/>
     </menu>
-
+    <menu opened="true" id="data-model"
+          description="msg://com.company.jmixforanalyst/menu_config.data-model.description"
+          title="msg://com.company.jmixforanalyst/menu_config.data-model.title">
+        <item view="jal_Lead.list" title="msg://com.company.jmixforanalyst.view.lead/leadListView.title"/>
+        <item view="jal_Product.list" title="msg://com.company.jmixforanalyst.view.product/productListView.title"/>
+    </menu>
 </menu-config>
