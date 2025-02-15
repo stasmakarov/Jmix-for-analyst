@@ -21,6 +21,8 @@
     <layout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="loadBtn" text="msg://Load.Storm"/>
+            <button id="readBtn" action="stormDiagramDtoesDataGrid.read"/>
+            <button id="saveDraftBtn" action="stormDiagramDtoesDataGrid.saveDraft" text="msg://save.draft"/>
             <simplePagination id="pagination" dataLoader="stormDiagramDtoesDl"/>
         </hbox>
         <dataGrid id="stormDiagramDtoesDataGrid"
@@ -29,13 +31,16 @@
                   dataContainer="stormDiagramDtoesDc"
                   columnReorderingAllowed="true">
             <columns resizable="true">
-                <column property="name"/>
+                <column property="name" width="350px"/>
                 <column property="author"/>
-                <column property="updatedBy"/>
-                <column property="status"/>
-                <column property="created"/>
-                <column property="updated"/>
+                <column property="status" width="40px"/>
+                <column property="versionNumber" width="30px"/>
+                <column property="teamFolderName"/>
             </columns>
+            <actions>
+                <action id="read" type="readStormDiagram"/>
+                <action id="saveDraft" type="saveDraft"/>
+            </actions>
         </dataGrid>
         <hbox id="lookupActions" visible="false">
             <button id="selectButton" action="selectAction"/>

@@ -54,6 +54,7 @@ public class OpenModelerAction<E> extends ItemTrackingAction<E> {
                         .withAfterNavigationHandler(event ->
                                 event.getView().setBpmnXml(bpmnXml)
                         )
+                        .withBackwardNavigation(true)
                         .navigate();
             }
         } catch (IOException e) {

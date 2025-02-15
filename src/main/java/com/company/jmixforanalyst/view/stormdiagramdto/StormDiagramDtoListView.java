@@ -1,13 +1,18 @@
 package com.company.jmixforanalyst.view.stormdiagramdto;
 
+import com.company.jmixforanalyst.dto.DiagramDetailsDto;
 import com.company.jmixforanalyst.dto.DiagramDto;
 import com.company.jmixforanalyst.dto.DiagramListResponse;
 import com.company.jmixforanalyst.entity.StormDiagramDto;
 import com.company.jmixforanalyst.service.StormService;
 import com.company.jmixforanalyst.view.main.MainView;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.router.Route;
+import io.jmix.bpm.entity.ContentStorage;
+import io.jmix.core.DataManager;
 import io.jmix.core.LoadContext;
+import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.model.CollectionLoader;
@@ -26,6 +31,10 @@ import java.util.stream.Collectors;
 public class StormDiagramDtoListView extends StandardListView<StormDiagramDto> {
 
     private List<DiagramDto> diagramDtos;
+
+    @Autowired
+    private DataManager dataManager;
+
     @ViewComponent
     private CollectionContainer<StormDiagramDto> stormDiagramDtoesDc;
 
@@ -42,12 +51,14 @@ public class StormDiagramDtoListView extends StandardListView<StormDiagramDto> {
 
     @Subscribe(id = "loadBtn", subject = "clickListener")
     public void onLoadBtnClick(final ClickEvent<JmixButton> event) {
-        DiagramListResponse response = stormService.getDiagrams(0);
-        List<DiagramDto> diagramDtos = response.returnDiagrams();
-        List<StormDiagramDto> stormDiagramDtos = diagramDtos.stream()
-                .map(stormService::convertToStormDiagramDto)
-                .toList();
-
+        List<StormDiagramDto> stormDiagramDtos = stormService.loadFromStorm();
         stormDiagramDtoesDc.setItems(stormDiagramDtos);
     }
+
+    @Subscribe
+    public void onBeforeShow(final BeforeShowEvent event) {
+        List<StormDiagramDto> stormDiagrams = StormService.getStormDiagrams();
+        stormDiagramDtoesDc.setItems(stormDiagrams);
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.company.jmixforanalyst.action;
 
-import com.company.jmixforanalyst.view.extcontentstoragedetail.ExtContentStorageDetailView;
+import com.company.jmixforanalyst.view.contentstorage.ProcessDraftDetailView;
 import com.vaadin.flow.component.Component;
 import io.jmix.bpm.entity.ContentStorage;
 import io.jmix.flowui.ViewNavigators;
@@ -11,9 +11,9 @@ import io.jmix.flowui.view.View;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ActionType("editProcessDraft")
-public class EditProcessDraftAction<E> extends EditAction<E> {
+public class EditDraftAction<E> extends EditAction<E> {
 
-    public EditProcessDraftAction(String id) {
+    public EditDraftAction(String id) {
         super(id);
         setText("Edit draft");
     }
@@ -36,10 +36,10 @@ public class EditProcessDraftAction<E> extends EditAction<E> {
     private void openEditor(ContentStorage contentStorage, Component component) {
         View<?> originView = UiComponentUtils.getView(component);
         if (originView != null) {
-            viewNavigators.view(originView, ExtContentStorageDetailView.class)
-                    .withAfterNavigationHandler(event ->
-                            event.getView().setContentStorage(contentStorage)
-                    )
+            viewNavigators.detailView(originView, ContentStorage.class)
+                    .withViewClass(ProcessDraftDetailView.class)
+                    .editEntity(contentStorage)
+                    .withBackwardNavigation(true)
                     .navigate();
         }
     }

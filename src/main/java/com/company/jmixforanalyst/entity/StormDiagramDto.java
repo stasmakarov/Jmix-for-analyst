@@ -16,12 +16,12 @@ public class StormDiagramDto {
 
     private String id;
 
-    private String xml;
+    private String teamFolderName;
+
+    private Integer versionNumber;
 
     @InstanceName
     private String name;
-
-    private String source;
 
     private String status;
 
@@ -34,6 +34,42 @@ public class StormDiagramDto {
     private LocalDateTime updated;
 
     private String type;
+
+    private String description;
+
+    private String tags;
+
+    public String getTeamFolderName() {
+        return teamFolderName;
+    }
+
+    public void setTeamFolderName(String teamFolderName) {
+        this.teamFolderName = teamFolderName;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(Integer versionNumber) {
+        this.versionNumber = versionNumber;
+    }
 
     public String getType() {
         return type;
@@ -83,28 +119,12 @@ public class StormDiagramDto {
         this.status = status;
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getXml() {
-        return xml;
-    }
-
-    public void setXml(String xml) {
-        this.xml = xml;
     }
 
     public String getId() {

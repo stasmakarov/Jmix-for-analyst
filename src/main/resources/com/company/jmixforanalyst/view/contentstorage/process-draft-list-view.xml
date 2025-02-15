@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://processDraftListView.title"
+      focusComponent="contentStoragesDataGrid">
+    <data>
+        <collection id="contentStoragesDc"
+                    class="io.jmix.bpm.entity.ContentStorage">
+            <fetchPlan extends="_instance_name">
+                <property name="type"/>
+                <property name="author"/>
+                <property name="createdBy"/>
+                <property name="createdDate"/>
+                <property name="lastModifiedBy"/>
+                <property name="lastModifiedDate"/>
+                <property name="content"/>
+            </fetchPlan>
+            <loader id="contentStoragesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from bpm_ContentStorage e where e.type = 'bpmn-model-draft']]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="contentStoragesDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="openModelerBtn" action="contentStoragesDataGrid.openModeler"/>
+            <button id="editButton" action="contentStoragesDataGrid.edit"/>
+            <button id="removeButton" action="contentStoragesDataGrid.remove"/>
+            <button id="uploadStormBtn" action="contentStoragesDataGrid.upload" text="msg://upload.storm"/>
+            <simplePagination id="pagination" dataLoader="contentStoragesDl"/>
+        </hbox>
+        <dataGrid id="contentStoragesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="contentStoragesDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="openModeler" type="openModeler"/>
+                <action id="upload" type="uploadToStorm"/>
+                <action id="edit" type="editProcessDraft"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="name"/>
+                <column property="author"/>
+                <column property="type"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

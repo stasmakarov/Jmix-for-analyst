@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://stormDiagramDtoDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="stormDiagramDtoDc"
+                  class="com.company.jmixforanalyst.entity.StormDiagramDto">
+            <loader id="stormDiagramDtoDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="stormDiagramDtoDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="idField" property="id"/>
+            <textField id="teamFolderNameField" property="teamFolderName"/>
+            <textField id="versionNumberField" property="versionNumber"/>
+            <textField id="nameField" property="name"/>
+            <textField id="statusField" property="status"/>
+            <textField id="authorField" property="author"/>
+            <textField id="updatedByField" property="updatedBy"/>
+            <dateTimePicker id="createdField" property="created"/>
+            <dateTimePicker id="updatedField" property="updated"/>
+            <textField id="typeField" property="type"/>
+            <textField id="descriptionField" property="description"/>
+            <textField id="tagsField" property="tags"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="closeButton" action="closeAction" text="msg://close"/>
+        </hbox>
+    </layout>
+</view>

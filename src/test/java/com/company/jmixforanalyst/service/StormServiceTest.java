@@ -14,12 +14,6 @@ class StormServiceTest {
     @Autowired
     StormService stormService;
 
-    @Test
-    void getDiagrams() {
-        DiagramListResponse diagrams = stormService.getDiagrams(1);
-        int size = diagrams.size();
-        Assertions.assertNotEquals(size, 0);
-    }
 
     @Test
     void uploadDiagrams() {

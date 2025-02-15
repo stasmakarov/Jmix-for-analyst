@@ -7,15 +7,17 @@ public record DiagramDto(
         String id,
         LocalDateTime createdOn,
         LocalDateTime updatedOn,
-        String name,
-        String status,
-        String authorUsername,
-        String updatedBy,
+        String teamFolderName,
         boolean isPublic,
         int versionNumber,
+        String name,
+        String status,
+        String updatedBy,
+        String authorUsername,
         String description,
-        String teamName,
         String type,
-        List<TagDto> tags
+        List<TagDto> tags,
+        String teamName,
+        Double quality,
+        String processType
 ) {}
-
