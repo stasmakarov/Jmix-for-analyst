@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://leadProcessForm.title">
+    <data>
+        <instance id="leadDc"
+                  class="com.company.jmixforanalyst.entity.Lead">
+            <fetchPlan extends="_base"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <formLayout id="form" dataContainer="leadDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="idField" property="id"/>
+            <dateTimePicker id="dateField" property="date"/>
+            <textField id="customerField" property="customer"/>
+            <textArea id="requestField" height="9.5em" property="request"/>
+            <entityPicker id="productField" property="product">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <select id="sizeField" property="size"/>
+            <textField id="budgetField" property="budget"/>
+            <select id="statusField" property="status"/>
+        </formLayout>
+        <formLayout>
+            <textField datatype="string" id="commentField" label="msg://leadProcessForm.variable.comment"/>
+        </formLayout>
+        <hbox id="actionsPanel">
+            <button id="submitBtn" icon="CHECK" text="msg://leadProcessForm.outcome.submit" themeNames="primary"/>
+            <button id="rejectBtn" icon="BAN" text="msg://leadProcessForm.outcome.reject"/>
+        </hbox>
+    </layout>
+</view>

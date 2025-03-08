@@ -42,7 +42,7 @@
             <button id="openModelerBtn" action="contentStoragesDataGrid.openModeler"/>
             <button id="editButton" action="contentStoragesDataGrid.edit"/>
             <button id="removeButton" action="contentStoragesDataGrid.remove"/>
-            <button id="uploadStormBtn" action="contentStoragesDataGrid.upload" text="msg://upload.storm"/>
+            <button id="uploadStormBtn" action="contentStoragesDataGrid.upload"/>
             <simplePagination id="pagination" dataLoader="contentStoragesDl"/>
         </hbox>
         <dataGrid id="contentStoragesDataGrid"
@@ -59,6 +59,7 @@
             <columns resizable="true">
                 <column property="name"/>
                 <column property="author"/>
+                <column property="createdDate"/>
                 <column property="type"/>
             </columns>
         </dataGrid>

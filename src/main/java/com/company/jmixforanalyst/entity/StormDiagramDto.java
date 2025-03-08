@@ -1,9 +1,12 @@
 package com.company.jmixforanalyst.entity;
 
+import io.jmix.core.MetadataTools;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.JmixId;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.datatype.DatatypeFormatter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,7 +23,6 @@ public class StormDiagramDto {
 
     private Integer versionNumber;
 
-    @InstanceName
     private String name;
 
     private String status;
@@ -141,5 +143,13 @@ public class StormDiagramDto {
 
     public void setId_(UUID id_) {
         this.id_ = id_;
+    }
+
+    @InstanceName
+    @DependsOnProperties({"name", "versionNumber"})
+    public String getInstanceName(MetadataTools metadataTools, DatatypeFormatter datatypeFormatter) {
+        return String.format("%s v.%s",
+                metadataTools.format(name),
+                datatypeFormatter.formatInteger(versionNumber));
     }
 }

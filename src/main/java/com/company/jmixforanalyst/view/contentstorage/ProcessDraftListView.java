@@ -17,16 +17,4 @@ import org.springframework.beans.factory.annotation.Autowired;
 @LookupComponent("contentStoragesDataGrid")
 @DialogMode(width = "64em")
 public class ProcessDraftListView extends StandardListView<ContentStorage> {
-//    @Autowired
-//    private StormService stormService;
-//    @ViewComponent
-//    private DataGrid<ContentStorage> contentStoragesDataGrid;
-//
-//    @Subscribe(id = "uploadStormBtn", subject = "clickListener")
-//    public void onUploadStormBtnClick(final ClickEvent<JmixButton> event) {
-//        ContentStorage selectedItem = contentStoragesDataGrid.getSingleSelectedItem();
-//        if (selectedItem != null) {
-//            stormService.uploadToStorm(selectedItem);
-//        }
-//    }
 }

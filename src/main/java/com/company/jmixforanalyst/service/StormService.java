@@ -7,7 +7,6 @@ import io.jmix.bpm.entity.ContentStorage;
 import io.jmix.core.DataManager;
 import io.jmix.core.Metadata;
 import io.jmix.core.security.CurrentAuthentication;
-import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +21,7 @@ import java.util.*;
 public class StormService {
 
     private static final Logger log = LoggerFactory.getLogger(StormService.class);
-    private static List<StormDiagramDto> stormDiagrams = new ArrayList<>();
+    private static final List<StormDiagramDto> stormDiagrams = new ArrayList<>();
 
     private final DataManager dataManager;
     private final CurrentAuthentication currentAuthentication;
@@ -123,6 +122,7 @@ public class StormService {
         headers.set("X-Api-Key", stormApiKey);
 
         HttpEntity<List<ProcessDto>> requestEntity = new HttpEntity<>(diagrams, headers);
+        List<ProcessDto> body = requestEntity.getBody();
 
         ResponseEntity<DiagramUploadResponse> response = restTemplate.exchange(
                 apiUrl, HttpMethod.POST, requestEntity, DiagramUploadResponse.class
@@ -177,16 +177,21 @@ public class StormService {
         log.info("Storm diagram saved as draft: {}-{}", diagramDto.id(), diagramDto.name());
     }
 
-    public void uploadToStorm(ContentStorage contentStorage) {
+    public UploadResult uploadToStorm(ContentStorage contentStorage) {
         String xml = new String(contentStorage.getContent(), java.nio.charset.StandardCharsets.UTF_8);
-        String escapedXml = StringEscapeUtils.escapeJson(xml);
         StormData stormData = getStormDataByParent(contentStorage);
-        String id = stormData != null ? stormData.getId() : null;
+        String id = contentStorage.getName() + ":" +
+                (stormData != null ? stormData.getVersionNumber().toString() : "1");
 
-        ProcessDto processDto = new ProcessDto(id, escapedXml, contentStorage.getName(), "Loaded from Jmix");
+        ProcessDto processDto = new ProcessDto(id, xml, contentStorage.getName(), "Loaded from Jmix");
         List<ProcessDto> uploadList = List.of(processDto);
 
         DiagramUploadResponse diagramUploadResponse = uploadDiagrams(uploadList);
+        return parseResponse(diagramUploadResponse);
+    }
+
+    private static UploadResult parseResponse(DiagramUploadResponse diagramUploadResponse) {
+        int errorsCount = 0;
         Map<String, List<String>> errors = diagramUploadResponse.getErrors();
         for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
             String key = entry.getKey();
@@ -194,8 +199,19 @@ public class StormService {
 
             for (String value : values) {
                 log.error("Key: {} - {}", key, value);
+                errorsCount += Integer.parseInt(value);
             }
         }
+        if (errorsCount > 0) return new UploadResult(false, "Upload to Storm completed with error");
+
+        StringBuilder responseMessage = new StringBuilder();
+        for (StormDiagramDto createdDiagram : diagramUploadResponse.getCreatedDiagrams()) {
+            responseMessage.append("Created: ").append(createdDiagram.getName()).append("\n");
+        }
+        for (UpdatedDiagramDto updatedDiagram : diagramUploadResponse.getUpdatedDiagrams()) {
+            responseMessage.append("Updated: ").append(updatedDiagram.getSourceDiagramId()).append("\n");
+        }
+        return new UploadResult(true, responseMessage.toString());
     }
 
     public StormData getStormDataByParent(ContentStorage contentStorage) {

@@ -24,7 +24,7 @@ public class OpenModelerAction<E> extends ItemTrackingAction<E> {
 
     public OpenModelerAction(String id) {
         super(id);
-        setText("Open modeler");
+        setText("Open in modeler");
     }
 
 
