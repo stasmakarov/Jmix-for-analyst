@@ -11,6 +11,8 @@
                 <property name="size"/>
                 <property name="budget"/>
                 <property name="status"/>
+                <property name="performer"/>
+                <property name="email"/>
             </fetchPlan>
             <loader id="leadsDl" readOnly="true">
                 <query>
@@ -59,6 +61,8 @@
                 <column property="size"/>
                 <column property="budget"/>
                 <column property="status"/>
+                <column property="performer"/>
+                <column property="email"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

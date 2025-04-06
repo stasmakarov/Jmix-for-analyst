@@ -35,6 +35,8 @@
             <select id="sizeField" property="size"/>
             <textField id="budgetField" property="budget"/>
             <select id="statusField" property="status"/>
+            <textField id="performerField" property="performer"/>
+            <textField id="emailField" property="email"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

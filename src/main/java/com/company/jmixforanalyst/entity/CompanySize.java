@@ -5,23 +5,23 @@ import io.jmix.core.metamodel.datatype.EnumClass;
 import org.springframework.lang.Nullable;
 
 
-public enum CompanySize implements EnumClass<Integer> {
+public enum CompanySize implements EnumClass<String> {
 
-    HUGE(10),
-    SMALL(20);
+    LARGE("Large"),
+    SMALL("Small");
 
-    private final Integer id;
+    private final String id;
 
-    CompanySize(Integer id) {
+    CompanySize(String id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @Nullable
-    public static CompanySize fromId(Integer id) {
+    public static CompanySize fromId(String id) {
         for (CompanySize at : CompanySize.values()) {
             if (at.getId().equals(id)) {
                 return at;

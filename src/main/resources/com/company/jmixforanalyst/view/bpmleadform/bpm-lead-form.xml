@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      title="msg://lead1ProcessForm.title">
+      title="msg://bpmLeadForm.title">
     <data>
         <instance id="leadDc"
                   class="com.company.jmixforanalyst.entity.Lead">
@@ -18,25 +18,18 @@
                 <responsiveStep minWidth="40em" columns="2"/>
             </responsiveSteps>
             <textField id="idField" property="id"/>
-            <dateTimePicker id="dateField" property="date"/>
             <textField id="customerField" property="customer"/>
+            <textField id="emailField" property="email"/>
             <textArea id="requestField" height="9.5em" property="request"/>
-            <entityPicker id="productField" property="product">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
             <select id="sizeField" property="size"/>
             <textField id="budgetField" property="budget"/>
-            <select id="statusField" property="status"/>
+            <textField id="performerField" property="performer"/>
         </formLayout>
         <formLayout>
-            <textField datatype="string" id="commentField" label="msg://lead1ProcessForm.variable.comment"/>
+            <textField datatype="string" id="commentField" label="msg://bpmLeadForm.variable.comment" required="true"/>
         </formLayout>
         <hbox id="actionsPanel">
-            <button id="submitBtn" icon="CHECK" text="msg://lead1ProcessForm.outcome.submit" themeNames="primary"/>
-            <button id="rejectBtn" icon="BAN" text="msg://lead1ProcessForm.outcome.reject"/>
+            <button id="completeBtn" icon="CHECK" text="msg://bpmLeadForm.outcome.complete" themeNames="primary"/>
         </hbox>
     </layout>
 </view>

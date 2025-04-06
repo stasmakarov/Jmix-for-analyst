@@ -8,12 +8,8 @@ import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.core.metamodel.datatype.DatatypeFormatter;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @JmixEntity
-@Table(name = "JAL_LEAD", indexes = {
-        @Index(name = "IDX_JAL_LEAD_PRODUCT", columnList = "PRODUCT_ID")
-})
+@Table(name = "JAL_LEAD")
 @Entity(name = "jal_Lead")
 public class Lead {
     @JmixGeneratedValue
@@ -21,43 +17,39 @@ public class Lead {
     @Id
     private Integer id;
 
-    @Column(name = "DATE_")
-    private LocalDateTime date;
-
     @Column(name = "CUSTOMER")
     private String customer;
+
+    @Column(name = "EMAIL")
+    private String email;
 
     @Column(name = "REQUEST")
     @Lob
     private String request;
 
-    @JoinColumn(name = "PRODUCT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Product product;
-
     @Column(name = "SIZE_")
-    private Integer size;
+    private String size;
 
     @Column(name = "BUDGET")
     private Long budget;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column(name = "PERFORMER")
+    private String performer;
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Status getStatus() {
-        return status == null ? null : Status.fromId(status);
+    public String getPerformer() {
+        return performer;
     }
 
-    public void setStatus(Status status) {
-        this.status = status == null ? null : status.getId();
+    public void setPerformer(String performer) {
+        this.performer = performer;
     }
 
     public Long getBudget() {
@@ -74,14 +66,6 @@ public class Lead {
 
     public void setSize(CompanySize size) {
         this.size = size == null ? null : size.getId();
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public String getRequest() {
@@ -108,12 +92,13 @@ public class Lead {
         this.id = id;
     }
 
+
     @InstanceName
-    @DependsOnProperties({"id", "product", "date"})
+    @DependsOnProperties({"id", "customer", "performer"})
     public String getInstanceName(MetadataTools metadataTools, DatatypeFormatter datatypeFormatter) {
         return String.format("%s %s %s",
                 datatypeFormatter.formatInteger(id),
-                metadataTools.format(product),
-                datatypeFormatter.formatLocalDateTime(date));
+                metadataTools.format(customer),
+                metadataTools.format(performer));
     }
 }

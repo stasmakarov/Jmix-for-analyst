@@ -1,4 +1,4 @@
-package com.company.jmixforanalyst.view.leadprocessform;
+package com.company.jmixforanalyst.view.bpmleadform;
 
 
 import com.company.jmixforanalyst.entity.Lead;
@@ -18,24 +18,23 @@ import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ProcessForm(outcomes = {
-        @Outcome(id = "submit"),
-        @Outcome(id = "reject")
+        @Outcome(id = "complete")
 }, outputVariables = {
         @OutputVariable(name = "comment", type = String.class),
-        @OutputVariable(name = "leadVar", type = Lead.class)
+        @OutputVariable(name = "lead", type = Lead.class)
 })
-@Route(value = "lead-process-form", layout = MainView.class)
-@ViewController(id = "jal_LeadProcessForm")
-@ViewDescriptor(path = "lead-process-form.xml")
-public class LeadProcessForm extends StandardView {
+@Route(value = "bpm-lead-form", layout = MainView.class)
+@ViewController(id = "jal_BpmLeadForm")
+@ViewDescriptor(path = "bpm-lead-form.xml")
+public class BpmLeadForm extends StandardView {
 
     @Autowired
     private ProcessFormContext processFormContext;
     @ProcessVariable(name = "comment")
     @ViewComponent
     private TypedTextField<String> commentField;
-    @ProcessVariable(name = "leadVar")
-    private Lead leadVar;
+    @ProcessVariable(name = "lead")
+    private Lead lead;
     @ViewComponent
     DataContext dataContext;
     @ViewComponent
@@ -43,27 +42,17 @@ public class LeadProcessForm extends StandardView {
 
     @Subscribe
     public void onBeforeShow(final BeforeShowEvent event) {
-        if (leadVar == null) {
-            leadVar = dataContext.create(Lead.class);
+        if (lead == null) {
+            lead = dataContext.create(Lead.class);
         }
-        leadDc.setItem(dataContext.merge(leadVar));
+        leadDc.setItem(dataContext.merge(lead));
     }
 
-    @Subscribe(id = "submitBtn", subject = "clickListener")
-    protected void onSubmitBtnClick(ClickEvent<JmixButton> event) {
+    @Subscribe(id = "completeBtn", subject = "clickListener")
+    protected void onCompleteBtnClick(ClickEvent<JmixButton> event) {
         dataContext.save();
         processFormContext.taskCompletion()
-                .withOutcome("submit")
-                .saveInjectedProcessVariables()
-                .complete();
-        closeWithDefaultAction();
-    }
-
-    @Subscribe(id = "rejectBtn", subject = "clickListener")
-    protected void onRejectBtnClick(ClickEvent<JmixButton> event) {
-        dataContext.save();
-        processFormContext.taskCompletion()
-                .withOutcome("reject")
+                .withOutcome("complete")
                 .saveInjectedProcessVariables()
                 .complete();
         closeWithDefaultAction();

@@ -29,7 +29,7 @@
                        dataLoader="usersDl">
             <properties include=".*"/>
         </genericFilter>
-        <hbox id="buttonsPanel" classNames="buttons-panel">
+        <hbox id="buttonsPanel" classNames="buttons-panel text-2xs">
             <button id="createButton" action="usersDataGrid.create"/>
             <button id="editButton" action="usersDataGrid.edit"/>
             <button id="removeButton" action="usersDataGrid.remove"/>
