@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      title="msg://bpmLeadForm.title">
+      title="msg://bpmLeadForm.title"
+      focusComponent="commentField">
     <data>
         <instance id="leadDc"
                   class="com.company.jmixforanalyst.entity.Lead">
@@ -12,21 +13,21 @@
         <dataLoadCoordinator auto="true"/>
     </facets>
     <layout>
-        <formLayout id="form" dataContainer="leadDc">
+        <h4 text="Lead information"/>
+        <formLayout id="form" dataContainer="leadDc" width="500px" classNames="bg-contrast-5">
             <responsiveSteps>
                 <responsiveStep minWidth="0" columns="1"/>
-                <responsiveStep minWidth="40em" columns="2"/>
             </responsiveSteps>
-            <textField id="idField" property="id"/>
-            <textField id="customerField" property="customer"/>
-            <textField id="emailField" property="email"/>
-            <textArea id="requestField" height="9.5em" property="request"/>
-            <select id="sizeField" property="size"/>
-            <textField id="budgetField" property="budget"/>
-            <textField id="performerField" property="performer"/>
+            <textField id="customerField" property="customer" readOnly="true"/>
+            <textField id="emailField" property="email" readOnly="true"/>
+            <textArea id="requestField" height="6.5em" property="request" readOnly="true"/>
+            <select id="sizeField" property="size" readOnly="true"/>
+            <textField id="budgetField" property="budget" readOnly="true"/>
         </formLayout>
         <formLayout>
-            <textField datatype="string" id="commentField" label="msg://bpmLeadForm.variable.comment" required="true"/>
+            <textField datatype="string" id="commentField"
+                       label="msg://bpmLeadForm.variable.comment" required="true"
+                       helperText="Write your comments on the contact" />
         </formLayout>
         <hbox id="actionsPanel">
             <button id="completeBtn" icon="CHECK" text="msg://bpmLeadForm.outcome.complete" themeNames="primary"/>

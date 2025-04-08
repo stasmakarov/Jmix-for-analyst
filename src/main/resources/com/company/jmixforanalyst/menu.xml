@@ -7,6 +7,8 @@
               title="msg://com.company.jmixforanalyst.view.stormdiagramdto/stormDiagramDtoListView.title"/>
         <item view="bpm_ProcessDraft.list"
               title="msg://com.company.jmixforanalyst.view.contentstorage/processDraftListView.title"/>
+        <item view="jal_AdvancedTaskListView"
+              title="msg://com.company.jmixforanalyst.view.advancedtasklist/advancedTaskListView.title"/>
     </menu>
     <menu opened="true" id="data-model"
           description="msg://com.company.jmixforanalyst/menu_config.data-model.description"

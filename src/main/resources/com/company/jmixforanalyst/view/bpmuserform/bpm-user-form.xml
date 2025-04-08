@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://bpmUserForm.title">
+    <data>
+        <instance id="userDc"
+                  class="com.company.jmixforanalyst.entity.User">
+            <fetchPlan extends="_base"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <formLayout id="form" dataContainer="userDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="usernameField" property="username"/>
+            <textField id="firstNameField" property="firstName"/>
+            <textField id="lastNameField" property="lastName"/>
+            <textField id="emailField" property="email"/>
+            <checkbox id="activeField" property="active"/>
+            <textField id="timeZoneIdField" property="timeZoneId"/>
+        </formLayout>
+        <hbox id="actionsPanel">
+            <button id="submitBtn" icon="CHECK" text="msg://bpmUserForm.outcome.submit" themeNames="primary"/>
+            <button id="rejectBtn" icon="BAN" text="msg://bpmUserForm.outcome.reject"/>
+        </hbox>
+    </layout>
+</view>
