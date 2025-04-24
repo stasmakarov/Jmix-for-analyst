@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:jmix="http://jmix.io/schema/bpm/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.flowable.org/processdef" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+  <process id="new-proc" name="New proc" isExecutable="true">
+    <startEvent id="startEvent1">
+      <extensionElements>
+        <jmix:formData type="input-dialog" openMode="DIALOG">
+          <jmix:formFields>
+            <jmix:formField id="customer" caption="Customer" type="string" editable="true" required="false" />
+          </jmix:formFields>
+        </jmix:formData>
+      </extensionElements>
+      <outgoing>Flow_1yqeii9</outgoing>
+    </startEvent>
+    <sequenceFlow id="Flow_1yqeii9" sourceRef="startEvent1" targetRef="Activity_18oerhg" />
+    <userTask id="Activity_0t6awl7">
+      <extensionElements>
+        <jmix:formData type="jmix-screen" openMode="DIALOG" screenId="jal_Lead1ProcessForm">
+          <jmix:formOutcomes>
+            <jmix:formOutcome id="submit" />
+            <jmix:formOutcome id="reject" />
+          </jmix:formOutcomes>
+        </jmix:formData>
+      </extensionElements>
+      <incoming>Flow_0e8tql1</incoming>
+      <outgoing>Flow_15w21ug</outgoing>
+    </userTask>
+    <endEvent id="Event_14e55qm">
+      <incoming>Flow_15w21ug</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_15w21ug" sourceRef="Activity_0t6awl7" targetRef="Event_14e55qm">
+      <extensionElements>
+        <jmix:conditionDetails conditionSource="userTaskOutcome" />
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_0e8tql1" sourceRef="Activity_18oerhg" targetRef="Activity_0t6awl7" />
+    <serviceTask id="Activity_18oerhg" flowable:type="jmix-load-entities-jpql">
+      <extensionElements>
+        <flowable:field name="jpql">
+          <flowable:string>select l from jal_Lead l where l.customer = :customer1</flowable:string>
+        </flowable:field>
+        <flowable:field name="resultVariable">
+          <flowable:string>lead</flowable:string>
+        </flowable:field>
+        <flowable:field name="saveLoadResultAs">
+          <flowable:string>single-element</flowable:string>
+        </flowable:field>
+        <flowable:field name="jpqlParameters">
+          <flowable:string>[{"name":"customer1","valueType":"processVariable","value":"customer"}]</flowable:string>
+        </flowable:field>
+      </extensionElements>
+      <incoming>Flow_1yqeii9</incoming>
+      <outgoing>Flow_0e8tql1</outgoing>
+      <outgoing>Flow_1260iep</outgoing>
+    </serviceTask>
+    <userTask id="Activity_143rz5g">
+      <incoming>Flow_1260iep</incoming>
+    </userTask>
+    <sequenceFlow id="Flow_1260iep" sourceRef="Activity_18oerhg" targetRef="Activity_143rz5g" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane id="BPMNPlane_process" bpmnElement="new-proc">
+      <bpmndi:BPMNShape id="BPMNShape_startEvent1" bpmnElement="startEvent1">
+        <omgdc:Bounds x="12" y="150" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1s5mzhx_di" bpmnElement="Activity_0t6awl7">
+        <omgdc:Bounds x="240" y="128" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14e55qm_di" bpmnElement="Event_14e55qm">
+        <omgdc:Bounds x="402" y="150" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e27t1f_di" bpmnElement="Activity_18oerhg">
+        <omgdc:Bounds x="90" y="128" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qfiz2h_di" bpmnElement="Activity_143rz5g">
+        <omgdc:Bounds x="240" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1yqeii9_di" bpmnElement="Flow_1yqeii9">
+        <omgdi:waypoint x="48" y="168" />
+        <omgdi:waypoint x="90" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15w21ug_di" bpmnElement="Flow_15w21ug">
+        <omgdi:waypoint x="340" y="168" />
+        <omgdi:waypoint x="402" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e8tql1_di" bpmnElement="Flow_0e8tql1">
+        <omgdi:waypoint x="190" y="168" />
+        <omgdi:waypoint x="240" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1260iep_di" bpmnElement="Flow_1260iep">
+        <omgdi:waypoint x="140" y="208" />
+        <omgdi:waypoint x="140" y="280" />
+        <omgdi:waypoint x="240" y="280" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

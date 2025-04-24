@@ -40,7 +40,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.common.engine.api.query.Query;
 import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
 import org.flowable.task.service.impl.TaskQueryProperty;
@@ -48,9 +50,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.lang.Nullable;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Route(value = "advanced-task-list-view", layout = MainView.class)
@@ -98,6 +98,8 @@ public class AdvancedTaskListView extends StandardListView<TaskData> {
     private TaskService taskService;
     @Autowired
     private RepositoryService repositoryService;
+    @Autowired
+    private RuntimeService runtimeService;
 
     //Jmix BPM API
     @Autowired
@@ -114,6 +116,7 @@ public class AdvancedTaskListView extends StandardListView<TaskData> {
 
     private String currentUserName;
     private List<String> userGroupCodes;
+    private Map<String, String> businesKeysMap = new HashMap<>();
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -127,8 +130,35 @@ public class AdvancedTaskListView extends StandardListView<TaskData> {
     public void onBeforeShow(final BeforeShowEvent event) {
         currentUserName = currentUserSubstitution.getEffectiveUser().getUsername();
         userGroupCodes = userGroupService.getUserGroups(currentUserName).stream().map(UserGroup::getCode).toList();
-
         tasksDl.load();
+        loadBusinessKeys();
+        addBusinessKeyColumn();
+    }
+
+    private void loadBusinessKeys() {
+        List<String> instanceIds = tasksDc.getItems().stream().map(TaskData::getProcessInstanceId).toList();
+        for (String instanceId : instanceIds) {
+            String businessKey = getBusinessKeyByProcessInstanceId(instanceId);
+            businesKeysMap.put(instanceId, businessKey);
+        }
+    }
+
+    private String getBusinessKeyByProcessInstanceId(String instanceId) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceId(instanceId)
+                .singleResult();
+
+        if (processInstance != null) {
+            return processInstance.getBusinessKey();
+        }
+
+        return "";
+    }
+
+    private void addBusinessKeyColumn() {
+        DataGrid.Column<TaskData> newColumn = tasksDataGrid.addColumn(
+                taskData -> businesKeysMap.get(taskData.getProcessInstanceId())
+        ).setHeader("Business key");
     }
 
     @Install(to = "tasksDl", target = Target.DATA_LOADER)
