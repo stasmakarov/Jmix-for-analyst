@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:jmix="http://jmix.io/schema/bpm/bpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.flowable.org/processdef" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+  <process id="variable-generation" name="Variable generation" isExecutable="true">
+    <startEvent id="startEvent1">
+      <outgoing>Flow_03wwb8c</outgoing>
+    </startEvent>
+    <sequenceFlow id="Flow_03wwb8c" sourceRef="startEvent1" targetRef="Activity_0m8xa9z" />
+    <serviceTask id="Activity_1cs4gge" name="Create variable" flowable:expression="${variableService.createVariable(execution)}" jmix:taskType="springBean" jmix:beanName="variableService">
+      <extensionElements>
+        <jmix:springBean beanName="variableService" methodName="createVariable">
+          <jmix:methodParam name="execution" type="org.flowable.engine.delegate.DelegateExecution" isVariable="true">execution</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
+      <incoming>Flow_16bhtop</incoming>
+      <outgoing>Flow_0p8d472</outgoing>
+    </serviceTask>
+    <sequenceFlow id="Flow_0obb3mr" sourceRef="Activity_0m8xa9z" targetRef="Gateway_1oh0q62" />
+    <scriptTask id="Activity_0m8xa9z" name="Init counter" scriptFormat="groovy">
+      <incoming>Flow_03wwb8c</incoming>
+      <outgoing>Flow_0obb3mr</outgoing>
+      <script>execution.setVariable("counter", 1L);</script>
+    </scriptTask>
+    <exclusiveGateway id="Gateway_1oh0q62">
+      <incoming>Flow_0obb3mr</incoming>
+      <incoming>Flow_1sp7frg</incoming>
+      <outgoing>Flow_16bhtop</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_16bhtop" sourceRef="Gateway_1oh0q62" targetRef="Activity_1cs4gge" />
+    <sequenceFlow id="Flow_0p8d472" sourceRef="Activity_1cs4gge" targetRef="Activity_0d0atho" />
+    <scriptTask id="Activity_0d0atho" name="Increment counter" flowable:async="true" scriptFormat="groovy">
+      <incoming>Flow_0p8d472</incoming>
+      <outgoing>Flow_1sp7frg</outgoing>
+      <script>def count = execution.getVariable("counter")
+execution.setVariable("counter", count + 1L)</script>
+    </scriptTask>
+    <sequenceFlow id="Flow_1sp7frg" sourceRef="Activity_0d0atho" targetRef="Gateway_1oh0q62" />
+    <boundaryEvent id="Event_0t4cco8" attachedToRef="Activity_1cs4gge">
+      <outgoing>Flow_0foacq2</outgoing>
+      <errorEventDefinition id="ErrorEventDefinition_17j0ch9" errorRef="varLimit" />
+    </boundaryEvent>
+    <sequenceFlow id="Flow_0foacq2" sourceRef="Event_0t4cco8" targetRef="Activity_0doj92a" />
+    <scriptTask id="Activity_0doj92a" name="Stop" scriptFormat="groovy">
+      <incoming>Flow_0foacq2</incoming>
+      <outgoing>Flow_0hcmlup</outgoing>
+      <script>println "Process interrupted"</script>
+    </scriptTask>
+    <endEvent id="Event_0a7xkt0">
+      <incoming>Flow_0hcmlup</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_0hcmlup" sourceRef="Activity_0doj92a" targetRef="Event_0a7xkt0" />
+  </process>
+  <error id="varLimit" name="Var limit" errorCode="LIMIT" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane id="BPMNPlane_process" bpmnElement="variable-generation">
+      <bpmndi:BPMNShape id="BPMNShape_startEvent1" bpmnElement="startEvent1">
+        <omgdc:Bounds x="150" y="150" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oo4h16_di" bpmnElement="Activity_1cs4gge">
+        <omgdc:Bounds x="530" y="128" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mzpfk4_di" bpmnElement="Activity_0m8xa9z">
+        <omgdc:Bounds x="250" y="128" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1oh0q62_di" bpmnElement="Gateway_1oh0q62" isMarkerVisible="true">
+        <omgdc:Bounds x="415" y="143" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0unfada_di" bpmnElement="Activity_0d0atho">
+        <omgdc:Bounds x="700" y="128" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oaolw9_di" bpmnElement="Activity_0doj92a">
+        <omgdc:Bounds x="700" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0a7xkt0_di" bpmnElement="Event_0a7xkt0">
+        <omgdc:Bounds x="902" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14hpbkw_di" bpmnElement="Event_0t4cco8">
+        <omgdc:Bounds x="562" y="190" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_03wwb8c_di" bpmnElement="Flow_03wwb8c">
+        <omgdi:waypoint x="186" y="168" />
+        <omgdi:waypoint x="250" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0obb3mr_di" bpmnElement="Flow_0obb3mr">
+        <omgdi:waypoint x="350" y="168" />
+        <omgdi:waypoint x="415" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16bhtop_di" bpmnElement="Flow_16bhtop">
+        <omgdi:waypoint x="465" y="168" />
+        <omgdi:waypoint x="530" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p8d472_di" bpmnElement="Flow_0p8d472">
+        <omgdi:waypoint x="630" y="168" />
+        <omgdi:waypoint x="700" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sp7frg_di" bpmnElement="Flow_1sp7frg">
+        <omgdi:waypoint x="750" y="128" />
+        <omgdi:waypoint x="750" y="60" />
+        <omgdi:waypoint x="440" y="60" />
+        <omgdi:waypoint x="440" y="143" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0foacq2_di" bpmnElement="Flow_0foacq2">
+        <omgdi:waypoint x="580" y="226" />
+        <omgdi:waypoint x="580" y="290" />
+        <omgdi:waypoint x="700" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hcmlup_di" bpmnElement="Flow_0hcmlup">
+        <omgdi:waypoint x="800" y="290" />
+        <omgdi:waypoint x="902" y="290" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
